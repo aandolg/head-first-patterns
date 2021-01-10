@@ -1,0 +1,7 @@
+{
+    "name": "aandolg/head-first-patterns",
+    "require": {},
+    "autoload": {
+      "psr-4": {"Aandolg\\": "./src/"}
+    }
+}

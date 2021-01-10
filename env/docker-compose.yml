@@ -1,0 +1,29 @@
+version: "3"
+services:
+  php-apache:
+    build:
+      context: .
+      dockerfile: dockerfile/Dockerfile
+    container_name: head_first-apache
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.head_first.rule=Host(`head-first.local`)"
+      - "traefik.http.routers.head_first.entrypoints=web"
+      - "traefik.http.routers.head_first-tls.rule=Host(`head-first.local`)"
+      - "traefik.http.routers.head_first-tls.entrypoints=web-secure"
+      - "traefik.http.routers.head_first-tls.tls=true"
+      # Uncomment line below to get Let's Encrypt SSL certificate on production or staging
+      #      - "traefik.http.routers.head_first-tls.tls.certresolver=letsencrypt"
+    ports:
+    - 85:80
+    volumes:
+      - ../src:/var/www/html
+    networks:
+      - proxy
+      - internal
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: false
